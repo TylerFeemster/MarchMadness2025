@@ -44,7 +44,7 @@ Straight away, we see some unique advantages of this team encoding:
 
 This is the naive algorithm. My solution has some minor improvements, which I'll describe now. First, we have the problem of blow-out games. If Team A beats Team C by 50 points, and Team B beats Team C by 30 points, does that really suggest Team A is much better than Team B? Maybe Team B was up 30 at halftime, so they benched all their starters early. Further, since the metric is least squares, these outliers would be far too influential in the model fitting. To solve this, I decided to apply the sigmoid function to some constant times the score difference. That way, extreme games are pushed to 0 or 1 while the rest are somewhere in between. Thresholding via clipping would also achieve the same aim, but it would cost us some reduction in information. In the example above, there is still something to be said about Team A winning by 20 more points than Team B. The constant in the sigmoid function was chosen by cross-validated hyperparameter tuning.
 
-There was a second issue with which I dealt: home court advantage. My solution to this was simple: I added a single learnable parameter to the metric to account for it. This looks like
+There was a second issue with which I dealt: home court advantage. To account for this, I added a single learnable parameter to the metric. This looks like
 
 $$\sum_{g \in games}[(\hat x_{team_1} - \hat x_{team_2} + h \cdot x_{hca}) - (x_{team_1}^g - x_{team_2}^g)]^2,$$
 
